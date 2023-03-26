@@ -5,11 +5,11 @@ import java.util.Objects;
 public abstract class BaseEntity<ID> {
     private ID id;
 
-    ID getId() {
+    public ID getId() {
         return id;
     }
 
-    void setId(final ID id) {
+    public void setId(final ID id) {
         this.id = id;
     }
 

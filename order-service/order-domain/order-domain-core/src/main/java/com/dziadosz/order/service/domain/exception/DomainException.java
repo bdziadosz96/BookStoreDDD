@@ -1,2 +1,4 @@
-package com.dziadosz.order.service.domain.exception;public class DomainException {
+package com.dziadosz.order.service.domain.exception;
+
+public class DomainException {
 }
