@@ -6,10 +6,12 @@ import com.dziadosz.domain.valueobject.Money;
 import com.dziadosz.domain.valueobject.OrderId;
 import com.dziadosz.domain.valueobject.OrderStatus;
 import com.dziadosz.domain.valueobject.TrackingPaymentId;
+import com.dziadosz.order.service.domain.exception.DomainException;
 import java.util.List;
+import java.util.UUID;
 
 public class Order extends AggregateRoot<OrderId> {
-    private final CartId cartId;
+    private final Cart cart;
     private final Money price;
     private TrackingPaymentId trackingPaymentId;
     private OrderStatus orderStatus;
@@ -17,15 +19,38 @@ public class Order extends AggregateRoot<OrderId> {
 
     private Order(final Builder builder) {
         super.setId(builder.orderId);
-        cartId = builder.cartId;
+        cart = builder.cart;
         price = builder.price;
         trackingPaymentId = builder.trackingPaymentId;
         orderStatus = builder.orderStatus;
         failureMessages = builder.failureMessages;
     }
 
-    CartId getCartId() {
-        return cartId;
+    public void createOrder() {
+        setId(new OrderId(UUID.randomUUID()));
+        trackingPaymentId = new TrackingPaymentId(UUID.randomUUID());
+        orderStatus = OrderStatus.NEW;
+        createCart();
+    }
+
+    public void validateOrder() {
+        validateInitialOrder();
+//        validateInitialCart();
+//        validateTotalPrice();
+    }
+
+    private void validateInitialOrder() {
+        if (orderStatus != null || getId() != null) {
+            throw new DomainException();
+        }
+    }
+
+    private void createCart() {
+        cart.initialize(super.getId(), new CartId(UUID.randomUUID()));
+    }
+
+    Cart getCart() {
+        return cart;
     }
 
     Money getPrice() {
@@ -46,7 +71,7 @@ public class Order extends AggregateRoot<OrderId> {
 
     public static final class Builder {
         private OrderId orderId;
-        private CartId cartId;
+        private Cart cart;
         private Money price;
         private TrackingPaymentId trackingPaymentId;
         private OrderStatus orderStatus;
@@ -64,8 +89,8 @@ public class Order extends AggregateRoot<OrderId> {
             return this;
         }
 
-        public Builder cartId(final CartId val) {
-            cartId = val;
+        public Builder cart(final Cart val) {
+            cart = val;
             return this;
         }
 
