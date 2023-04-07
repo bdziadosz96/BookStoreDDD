@@ -7,7 +7,7 @@ public class DeliveryAddress {
     private final String city;
     private final String postalCode;
 
-    DeliveryAddress(final String street, final String city, final String postalCode) {
+    public DeliveryAddress(final String street, final String city, final String postalCode) {
         this.street = street;
         this.city = city;
         this.postalCode = postalCode;
@@ -36,5 +36,14 @@ public class DeliveryAddress {
     @Override
     public int hashCode() {
         return Objects.hash(street, city, postalCode);
+    }
+
+    @Override
+    public String toString() {
+        return "DeliveryAddress{" +
+                "street='" + street + '\'' +
+                ", city='" + city + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                '}';
     }
 }

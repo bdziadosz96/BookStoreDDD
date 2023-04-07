@@ -1,7 +1,6 @@
 package com.dziadosz.order.service.domain.entity;
 
 import com.dziadosz.domain.entity.AggregateRoot;
-import com.dziadosz.domain.valueobject.CartId;
 import com.dziadosz.domain.valueobject.Money;
 import com.dziadosz.domain.valueobject.OrderId;
 import com.dziadosz.domain.valueobject.OrderStatus;
@@ -24,13 +23,6 @@ public class Order extends AggregateRoot<OrderId> {
         trackingPaymentId = builder.trackingPaymentId;
         orderStatus = builder.orderStatus;
         failureMessages = builder.failureMessages;
-    }
-
-    public void createOrder() {
-        setId(new OrderId(UUID.randomUUID()));
-        trackingPaymentId = new TrackingPaymentId(UUID.randomUUID());
-        orderStatus = OrderStatus.APPROVED;
-        createCart();
     }
 
     public void pay() {
@@ -89,12 +81,18 @@ public class Order extends AggregateRoot<OrderId> {
         }
     }
 
-    private void createCart() {
-       this.cart.assign(super.getId(), new CartId(UUID.randomUUID()));
-    }
-
     Cart getCart() {
         return cart;
+    }
+
+    public static Order fromCart(Cart cart) {
+        return Builder
+                .builder()
+                .id(cart.getOrderId())
+                .trackingPaymentId(new TrackingPaymentId(UUID.randomUUID()))
+                .cart(cart)
+                .orderStatus(OrderStatus.APPROVED)
+                .build();
     }
 
     Money getPrice() {
@@ -161,5 +159,16 @@ public class Order extends AggregateRoot<OrderId> {
         public Order build() {
             return new Order(this);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "cart=" + cart +
+                ", price=" + price +
+                ", trackingPaymentId=" + trackingPaymentId +
+                ", orderStatus=" + orderStatus +
+                ", failureMessages=" + failureMessages +
+                '}';
     }
 }

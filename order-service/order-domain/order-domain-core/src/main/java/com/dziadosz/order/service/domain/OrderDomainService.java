@@ -9,7 +9,7 @@ import com.dziadosz.order.service.domain.event.OrderExpireEvent;
 import com.dziadosz.order.service.domain.event.OrderPaidEvent;
 
 public interface OrderDomainService {
-    OrderCreateEvent validateAndInitiate(Cart cart);
+    OrderCreateEvent validateAndInitiateOrder(Cart cart);
 
     OrderPaidEvent payOrder(Order order);
 

@@ -15,8 +15,11 @@ public class OrderBook extends BaseEntity<OrderBookId> {
         return price.multiply(BigDecimal.valueOf(quantity));
     }
 
-    OrderBook(OrderBookId orderBookId, final String name, final String author,
-              final Money price, final Integer quantity) {
+    public OrderBook(OrderBookId orderBookId,
+                     final String name,
+                     final String author,
+                     final Money price,
+                     final Integer quantity) {
         super.setId(orderBookId);
         this.quantity = quantity;
         this.name = name;
@@ -38,5 +41,15 @@ public class OrderBook extends BaseEntity<OrderBookId> {
 
     Integer getQuantity() {
         return quantity;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderBook{" +
+                "name='" + name + '\'' +
+                ", author='" + author + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                '}';
     }
 }

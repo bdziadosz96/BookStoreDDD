@@ -7,6 +7,7 @@ import com.dziadosz.domain.valueobject.OrderId;
 import com.dziadosz.order.service.domain.exception.DomainException;
 import com.dziadosz.order.service.domain.valueobject.DeliveryAddress;
 import java.util.List;
+import java.util.UUID;
 
 public class Cart extends BaseEntity<CartId> {
     private OrderId orderId;
@@ -88,5 +89,15 @@ public class Cart extends BaseEntity<CartId> {
         public Cart build() {
             return new Cart(this);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "orderId=" + orderId +
+                ", totalPrice=" + totalPrice +
+                ", orderBooks=" + orderBooks +
+                ", deliveryAddress=" + deliveryAddress +
+                '}';
     }
 }

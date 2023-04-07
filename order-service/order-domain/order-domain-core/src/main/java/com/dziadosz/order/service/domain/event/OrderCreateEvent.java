@@ -8,12 +8,12 @@ public class OrderCreateEvent implements DomainEvent<Order> {
     private final Order order;
     private final LocalDateTime dateTime;
 
-    OrderCreateEvent(final Order order, final LocalDateTime dateTime) {
+    public OrderCreateEvent(final Order order, final LocalDateTime dateTime) {
         this.order = order;
         this.dateTime = dateTime;
     }
 
-    Order getOrder() {
+    public Order getOrder() {
         return order;
     }
 
