@@ -4,13 +4,14 @@ import com.dziadosz.domain.entity.BaseEntity;
 import com.dziadosz.domain.valueobject.CartId;
 import com.dziadosz.domain.valueobject.Money;
 import com.dziadosz.domain.valueobject.OrderId;
+import com.dziadosz.order.service.domain.exception.DomainException;
 import com.dziadosz.order.service.domain.valueobject.DeliveryAddress;
 import java.util.List;
 
 public class Cart extends BaseEntity<CartId> {
     private OrderId orderId;
+    private Money totalPrice;
     private final List<OrderBook> orderBooks;
-    private final Money totalPrice;
     private final DeliveryAddress deliveryAddress;
 
     private Cart(final Builder builder) {
@@ -18,6 +19,16 @@ public class Cart extends BaseEntity<CartId> {
         orderBooks = builder.orderBooks;
         totalPrice = builder.totalPrice;
         deliveryAddress = builder.deliveryAddress;
+    }
+
+    public void validateOrderBooks() {
+        var orderBooksCalculatedPrice = orderBooks.stream()
+                .map(OrderBook::calculateTotalPrice)
+                .reduce(Money.ZERO, Money::add);
+
+        if (!orderBooksCalculatedPrice.isEqualTo(totalPrice) || !orderBooksCalculatedPrice.isGreaterThanZero()) {
+            throw new DomainException("Validation in order books failed");
+        }
     }
 
     OrderId getOrderId() {
@@ -36,10 +47,9 @@ public class Cart extends BaseEntity<CartId> {
         return deliveryAddress;
     }
 
-    void initialize(final OrderId orderId, final CartId cartId) {
+    void assign(final OrderId orderId, final CartId cartId) {
         super.setId(cartId);
         this.orderId = orderId;
-
     }
 
     public static final class Builder {

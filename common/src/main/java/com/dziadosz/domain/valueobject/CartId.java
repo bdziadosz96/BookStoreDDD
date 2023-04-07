@@ -6,4 +6,6 @@ public class CartId extends BaseId<UUID> {
     public CartId(final UUID value) {
         super(value);
     }
+
+
 }

@@ -6,19 +6,15 @@ import java.util.Objects;
 
 public final class Money {
     private final BigDecimal amount;
-    private final String sign;
 
-    public Money(final BigDecimal amount, final String sign) {
+    public static final Money ZERO = new Money(BigDecimal.ZERO);
+
+    public Money(final BigDecimal amount) {
         this.amount = amount;
-        this.sign = sign;
-    }
-
-    public boolean isPolishZloty() {
-        return this.sign.equalsIgnoreCase("zl");
     }
 
     public boolean isGreaterThanZero() {
-        return this.amount != null && this.amount.compareTo(BigDecimal.ZERO) > 0;
+        return this.amount != null && this.amount.compareTo(Money.ZERO.getAmount()) > 0;
     }
 
     public boolean isGreaterThan(Money money) {
@@ -26,11 +22,19 @@ public final class Money {
     }
 
     public Money add(Money money) {
-        return new Money(round(this.amount.add(money.getAmount())), money.getSign());
+        return new Money(round(this.amount.add(money.getAmount())));
     }
 
     public Money multiply(Money money) {
-        return new Money(round(this.amount.multiply(money.getAmount())), money.getSign());
+        return new Money(round(this.amount.multiply(money.getAmount())));
+    }
+
+    public Money multiply(BigDecimal integer) {
+        return new Money(round(this.amount.multiply(integer)));
+    }
+
+    public boolean isEqualTo(final Money totalPrice) {
+        return amount.compareTo(totalPrice.getAmount()) == 0;
     }
 
     public BigDecimal round(BigDecimal input) {
@@ -41,20 +45,23 @@ public final class Money {
         return amount;
     }
 
-    String getSign() {
-        return sign;
-    }
-
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Money money = (Money) o;
-        return Objects.equals(amount, money.amount) && Objects.equals(sign, money.sign);
+        return Objects.equals(amount, money.amount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(amount, sign);
+        return Objects.hash(amount);
+    }
+
+    @Override
+    public String toString() {
+        return "Money{" +
+                "amount=" + amount +
+                '}';
     }
 }
