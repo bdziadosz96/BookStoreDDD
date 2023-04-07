@@ -8,7 +8,7 @@ public class OrderExpireEvent implements DomainEvent<Order> {
     private final Order order;
     private final LocalDateTime dateTime;
 
-    OrderExpireEvent(final Order order, final LocalDateTime dateTime) {
+    public OrderExpireEvent(final Order order, final LocalDateTime dateTime) {
         this.order = order;
         this.dateTime = dateTime;
     }

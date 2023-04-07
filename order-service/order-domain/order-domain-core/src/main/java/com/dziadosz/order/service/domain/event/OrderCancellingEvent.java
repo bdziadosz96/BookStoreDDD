@@ -8,7 +8,7 @@ public class OrderCancellingEvent implements DomainEvent<Order> {
     private final Order order;
     private final LocalDateTime dateTime;
 
-    OrderCancellingEvent(final Order order, final LocalDateTime dateTime) {
+    public OrderCancellingEvent(final Order order, final LocalDateTime dateTime) {
         this.order = order;
         this.dateTime = dateTime;
     }

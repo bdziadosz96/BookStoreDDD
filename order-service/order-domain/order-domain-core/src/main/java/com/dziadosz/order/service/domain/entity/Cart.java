@@ -47,11 +47,6 @@ public class Cart extends BaseEntity<CartId> {
         return deliveryAddress;
     }
 
-    void assign(final OrderId orderId, final CartId cartId) {
-        super.setId(cartId);
-        this.orderId = orderId;
-    }
-
     public static final class Builder {
         private CartId cartId;
         private List<OrderBook> orderBooks;

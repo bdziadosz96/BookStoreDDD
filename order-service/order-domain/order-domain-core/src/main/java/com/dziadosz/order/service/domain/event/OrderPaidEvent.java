@@ -8,7 +8,7 @@ public class OrderPaidEvent implements DomainEvent<Order> {
     private final Order order;
     private final LocalDateTime dateTime;
 
-    OrderPaidEvent(final Order order, final LocalDateTime dateTime) {
+    public OrderPaidEvent(final Order order, final LocalDateTime dateTime) {
         this.order = order;
         this.dateTime = dateTime;
     }
