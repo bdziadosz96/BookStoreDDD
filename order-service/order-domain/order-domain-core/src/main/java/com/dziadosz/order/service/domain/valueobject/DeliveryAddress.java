@@ -37,13 +37,4 @@ public class DeliveryAddress {
     public int hashCode() {
         return Objects.hash(street, city, postalCode);
     }
-
-    @Override
-    public String toString() {
-        return "DeliveryAddress{" +
-                "street='" + street + '\'' +
-                ", city='" + city + '\'' +
-                ", postalCode='" + postalCode + '\'' +
-                '}';
-    }
 }

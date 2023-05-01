@@ -3,6 +3,7 @@ package com.dziadosz.order.service.domain.entity;
 import com.dziadosz.domain.entity.BaseEntity;
 import com.dziadosz.domain.valueobject.Money;
 import com.dziadosz.domain.valueobject.OrderBookId;
+import com.dziadosz.order.service.domain.exception.DomainException;
 import java.math.BigDecimal;
 
 public class OrderBook extends BaseEntity<OrderBookId> {
@@ -27,6 +28,12 @@ public class OrderBook extends BaseEntity<OrderBookId> {
         this.price = price;
     }
 
+    void validateQuantity() {
+        if (!(quantity < 5)) {
+            throw new DomainException("Quantity of order book must be lower than 5 pieces");
+        }
+    }
+
     String getName() {
         return name;
     }
@@ -41,15 +48,5 @@ public class OrderBook extends BaseEntity<OrderBookId> {
 
     Integer getQuantity() {
         return quantity;
-    }
-
-    @Override
-    public String toString() {
-        return "OrderBook{" +
-                "name='" + name + '\'' +
-                ", author='" + author + '\'' +
-                ", price=" + price +
-                ", quantity=" + quantity +
-                '}';
     }
 }

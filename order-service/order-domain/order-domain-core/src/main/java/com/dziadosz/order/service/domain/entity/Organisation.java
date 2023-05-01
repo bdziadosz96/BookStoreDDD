@@ -1,7 +1,6 @@
 package com.dziadosz.order.service.domain.entity;
 
 import com.dziadosz.domain.entity.AggregateRoot;
-import com.dziadosz.domain.valueobject.Money;
 import com.dziadosz.domain.valueobject.OrganisationId;
 import java.util.List;
 

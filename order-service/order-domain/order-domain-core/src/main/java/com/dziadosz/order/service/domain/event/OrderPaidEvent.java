@@ -13,7 +13,7 @@ public class OrderPaidEvent implements DomainEvent<Order> {
         this.dateTime = dateTime;
     }
 
-    Order getOrder() {
+    public Order getOrder() {
         return order;
     }
 
