@@ -6,9 +6,12 @@ import com.dziadosz.domain.valueobject.Money;
 import com.dziadosz.domain.valueobject.OrderId;
 import com.dziadosz.order.service.domain.exception.DomainException;
 import com.dziadosz.order.service.domain.valueobject.DeliveryAddress;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 public class Cart extends BaseEntity<CartId> {
+    private static final Money CART_TOTAL_PRICE_LIMIT = new Money(BigDecimal.valueOf(5000));
     private OrderId orderId;
     private Money totalPrice;
     private final List<OrderBook> orderBooks;
@@ -16,6 +19,7 @@ public class Cart extends BaseEntity<CartId> {
 
     private Cart(final Builder builder) {
         super.setId(builder.cartId);
+        orderId = new OrderId(UUID.randomUUID());
         orderBooks = builder.orderBooks;
         totalPrice = builder.totalPrice;
         deliveryAddress = builder.deliveryAddress;
@@ -29,6 +33,12 @@ public class Cart extends BaseEntity<CartId> {
         if (!orderBooksCalculatedPrice.isEqualTo(totalPrice) || !orderBooksCalculatedPrice.isGreaterThanZero()) {
             throw new DomainException("Validation in order books failed");
         }
+
+        if (orderBooksCalculatedPrice.isGreaterThan(CART_TOTAL_PRICE_LIMIT)) {
+            throw new DomainException("Order limit exceeded " + orderBooksCalculatedPrice);
+        }
+
+        orderBooks.forEach(OrderBook::validateQuantity);
     }
 
     OrderId getOrderId() {
@@ -41,15 +51,6 @@ public class Cart extends BaseEntity<CartId> {
 
     Money getTotalPrice() {
         return totalPrice;
-    }
-
-    DeliveryAddress getDeliveryAddress() {
-        return deliveryAddress;
-    }
-
-    void assign(final OrderId orderId, final CartId cartId) {
-        super.setId(cartId);
-        this.orderId = orderId;
     }
 
     public static final class Builder {

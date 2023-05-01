@@ -9,6 +9,7 @@ public final class Money {
 
     public static final Money ZERO = new Money(BigDecimal.ZERO);
 
+
     public Money(final BigDecimal amount) {
         this.amount = amount;
     }

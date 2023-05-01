@@ -25,6 +25,16 @@ public class Order extends AggregateRoot<OrderId> {
         failureMessages = builder.failureMessages;
     }
 
+    public static Order fromCart(Cart cart) {
+        return Builder
+                .builder()
+                .id(cart.getOrderId())
+                .trackingPaymentId(new TrackingPaymentId(UUID.randomUUID()))
+                .cart(cart)
+                .orderStatus(OrderStatus.APPROVED)
+                .build();
+    }
+
     public void pay() {
         if (orderStatus != OrderStatus.APPROVED) {
             throw new DomainException("Order is not in correct state for pay operation");
@@ -44,6 +54,7 @@ public class Order extends AggregateRoot<OrderId> {
             throw new DomainException("Order is not in correct state for init cancelling operation");
         }
         orderStatus = OrderStatus.CANCELLING;
+        updateFailures(failureMessages);
     }
 
     public void cancel(List<String> failureMessages) {
@@ -83,16 +94,6 @@ public class Order extends AggregateRoot<OrderId> {
 
     Cart getCart() {
         return cart;
-    }
-
-    public static Order fromCart(Cart cart) {
-        return Builder
-                .builder()
-                .id(cart.getOrderId())
-                .trackingPaymentId(new TrackingPaymentId(UUID.randomUUID()))
-                .cart(cart)
-                .orderStatus(OrderStatus.APPROVED)
-                .build();
     }
 
     Money getPrice() {
