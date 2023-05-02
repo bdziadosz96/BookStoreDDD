@@ -1,9 +1,7 @@
 package com.dziadosz.domain.valueobject;
 
-import java.util.UUID;
-
-public class OrderBookId extends BaseId<UUID> {
-    public OrderBookId(final UUID value) {
+public class OrderBookId extends BaseId<String> {
+    public OrderBookId(final String value) {
         super(value);
     }
 }

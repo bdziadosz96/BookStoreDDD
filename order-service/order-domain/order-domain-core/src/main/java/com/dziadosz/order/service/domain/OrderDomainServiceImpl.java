@@ -18,10 +18,8 @@ public class OrderDomainServiceImpl implements OrderDomainService {
     private static final Logger LOGGER = Logger.getLogger(OrderDomainService.class.getName());
 
     @Override
-    public OrderCreateEvent validateAndInitiateOrder(final Cart cart,
-                                                     final Organisation organisation) {
+    public OrderCreateEvent validateAndInitiateOrder(final Cart cart) {
         cart.validateOrderBooks();
-        validateOrganization(organisation);
         var order = Order.fromCart(cart);
         order.validateOrder();
         LOGGER.log(Level.INFO, "Initialized order " + order.getId());
@@ -56,12 +54,5 @@ public class OrderDomainServiceImpl implements OrderDomainService {
         order.cancel(failures);
         LOGGER.log(Level.INFO, "Cancelled order " + order.getId());
         return new OrderCancelledEvent(order, LocalDateTime.now());
-    }
-
-    private void validateOrganization(Organisation organisation) {
-        if (!organisation.isActive()) {
-            throw new DomainException("Organisation with ID " + organisation.getId() +
-                    " is not active");
-        }
     }
 }
