@@ -4,6 +4,7 @@ import com.dziadosz.domain.valueobject.Money;
 import jakarta.validation.constraints.NotNull;
 
 public record OrderBook(
+        @NotNull String id,
         @NotNull String name,
         @NotNull String author,
         @NotNull Money price,

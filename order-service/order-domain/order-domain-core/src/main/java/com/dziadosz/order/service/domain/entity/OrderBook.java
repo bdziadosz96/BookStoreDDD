@@ -12,6 +12,13 @@ public class OrderBook extends BaseEntity<OrderBookId> {
     private final Money price;
     private final Integer quantity;
 
+    private OrderBook(final Builder builder) {
+        name = builder.name;
+        author = builder.author;
+        price = builder.price;
+        quantity = builder.quantity;
+    }
+
     public Money calculateTotalPrice() {
         return price.multiply(BigDecimal.valueOf(quantity));
     }
@@ -48,5 +55,49 @@ public class OrderBook extends BaseEntity<OrderBookId> {
 
     Integer getQuantity() {
         return quantity;
+    }
+
+    public static final class Builder {
+        private OrderBookId id;
+        private String name;
+        private String author;
+        private Money price;
+        private Integer quantity;
+
+        private Builder() {
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public Builder id(final OrderBookId val) {
+            id = val;
+            return this;
+        }
+
+        public Builder name(final String val) {
+            name = val;
+            return this;
+        }
+
+        public Builder author(final String val) {
+            author = val;
+            return this;
+        }
+
+        public Builder price(final Money val) {
+            price = val;
+            return this;
+        }
+
+        public Builder quantity(final Integer val) {
+            quantity = val;
+            return this;
+        }
+
+        public OrderBook build() {
+            return new OrderBook(this);
+        }
     }
 }
