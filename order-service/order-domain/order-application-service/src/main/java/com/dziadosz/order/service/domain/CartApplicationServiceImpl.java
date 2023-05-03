@@ -9,15 +9,15 @@ import org.springframework.validation.annotation.Validated;
 @Service
 @Validated
 public class CartApplicationServiceImpl implements CartApplicationService {
-    private final InitializeCartCommandHandler initializeCartCommandHandler;
+    private final InitializeOrderCommandHandler initializeCartCommandHandler;
 
-    public CartApplicationServiceImpl(final InitializeCartCommandHandler initializeCartCommandHandler) {
+    public CartApplicationServiceImpl(final InitializeOrderCommandHandler initializeCartCommandHandler) {
         this.initializeCartCommandHandler = initializeCartCommandHandler;
     }
 
     @Override
     public InitializeOrderResponse initalizeCart(final InitializeOrderCommand command) {
-        return initializeCartCommandHandler.initalizeCart(command);
+        return initializeCartCommandHandler.initalizeOrder(command);
     }
 
 }
