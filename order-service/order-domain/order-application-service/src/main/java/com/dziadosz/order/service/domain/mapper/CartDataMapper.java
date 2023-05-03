@@ -7,16 +7,21 @@ import com.dziadosz.order.service.domain.entity.Cart;
 import com.dziadosz.order.service.domain.entity.OrderBook;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
-@Mapper
+@Component
+@Slf4j
 public class CartDataMapper {
 
     public Cart initalizeCartCommandToCart(InitializeOrderCommand command) {
-        return Cart.Builder.builder()
+        Cart build = Cart.Builder.builder()
                 .deliveryAddress(command.deliveryAddress())
                 .orderBooks(toOrderBooks(command.orderBooks()))
                 .totalPrice(command.totalPrice())
                 .build();
+        log.info(build.toString());
+        return build;
     }
 
     private List<OrderBook> toOrderBooks(final List<com.dziadosz.order.service.domain.dto.command.OrderBook> orderBooks) {
