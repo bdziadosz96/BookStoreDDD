@@ -1,14 +1,14 @@
 package com.dziadosz.order.service.domain.mapper;
 
+import com.dziadosz.domain.annotations.Mapper;
 import com.dziadosz.domain.valueobject.OrderBookId;
 import com.dziadosz.order.service.domain.dto.command.InitializeOrderCommand;
 import com.dziadosz.order.service.domain.entity.Cart;
 import com.dziadosz.order.service.domain.entity.OrderBook;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.stereotype.Component;
 
-@Component
+@Mapper
 public class CartDataMapper {
 
     public Cart initalizeCartCommandToCart(InitializeOrderCommand command) {
