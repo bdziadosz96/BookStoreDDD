@@ -26,13 +26,16 @@ public class Order extends AggregateRoot<OrderId> {
     }
 
     public static Order fromCart(Cart cart) {
-        return Builder
+        Order build = Builder
                 .builder()
                 .id(cart.getOrderId())
                 .trackingPaymentId(new TrackingPaymentId(UUID.randomUUID()))
                 .cart(cart)
                 .orderStatus(OrderStatus.APPROVED)
                 .build();
+        System.out.println("Build in cart.getOrderId " + cart.getOrderId());
+        System.out.println("Build in fromCart " + build.getId());
+        return build;
     }
 
     public void pay() {
@@ -81,18 +84,18 @@ public class Order extends AggregateRoot<OrderId> {
     }
 
     private void validateInitialCart() {
-        if (cart.getTotalPrice() != null || cart.getOrderBooks() != null) {
+        if (cart.getTotalPrice() == null || cart.getOrderBooks() == null) {
             throw new DomainException("Initialization cart failure!");
         }
     }
 
     private void validateInitialOrder() {
-        if (orderStatus != null || getId() != null) {
-            throw new DomainException("Initizalition order failure!");
+        if (orderStatus == null || getId() == null) {
+            throw new DomainException("Initizalition order failure! " + orderStatus + " " + getId());
         }
     }
 
-    Cart getCart() {
+    public Cart getCart() {
         return cart;
     }
 

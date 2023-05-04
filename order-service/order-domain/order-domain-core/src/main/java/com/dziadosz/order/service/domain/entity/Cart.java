@@ -41,7 +41,7 @@ public class Cart extends BaseEntity<CartId> {
         orderBooks.forEach(OrderBook::validateQuantity);
     }
 
-    OrderId getOrderId() {
+    public OrderId getOrderId() {
         return orderId;
     }
 
@@ -89,5 +89,15 @@ public class Cart extends BaseEntity<CartId> {
         public Cart build() {
             return new Cart(this);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Cart{" + super.getId() +
+                "orderId=" + orderId +
+                ", totalPrice=" + totalPrice +
+                ", orderBooks=" + orderBooks +
+                ", deliveryAddress=" + deliveryAddress +
+                '}';
     }
 }
