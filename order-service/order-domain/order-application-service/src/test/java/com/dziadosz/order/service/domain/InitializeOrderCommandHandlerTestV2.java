@@ -70,6 +70,7 @@ class InitializeOrderCommandHandlerTestV2 {
 
     private static InitializeOrderCommand givenInitializeOrderCommand() {
         return new InitializeOrderCommand(
+                CART_ID,
                 new Money(new BigDecimal(10)),
                 List.of(new OrderBook(ORDER_BOOK_ID, "name", " author", new Money(BigDecimal.TEN),1)),
                 new DeliveryAddress("Example", "Example", "Example"),
