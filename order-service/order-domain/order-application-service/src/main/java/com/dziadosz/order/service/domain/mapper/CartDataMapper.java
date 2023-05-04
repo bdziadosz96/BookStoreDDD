@@ -8,10 +8,9 @@ import com.dziadosz.order.service.domain.entity.OrderBook;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
-@Component
 @Slf4j
+@Mapper
 public class CartDataMapper {
 
     public Cart initalizeCartCommandToCart(InitializeOrderCommand command) {
