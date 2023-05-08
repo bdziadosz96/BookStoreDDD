@@ -31,7 +31,7 @@ public class Cart extends BaseEntity<CartId> {
                 .reduce(Money.ZERO, Money::add);
 
         if (!orderBooksCalculatedPrice.isEqualTo(totalPrice) || !orderBooksCalculatedPrice.isGreaterThanZero()) {
-            throw new DomainException("Validation in order books failed");
+            throw new DomainException(String.format("Calculated price is incorrect %s", totalPrice));
         }
 
         if (orderBooksCalculatedPrice.isGreaterThan(CART_TOTAL_PRICE_LIMIT)) {
