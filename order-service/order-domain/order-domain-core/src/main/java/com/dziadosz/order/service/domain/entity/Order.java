@@ -1,7 +1,6 @@
 package com.dziadosz.order.service.domain.entity;
 
 import com.dziadosz.domain.entity.AggregateRoot;
-import com.dziadosz.domain.valueobject.Money;
 import com.dziadosz.domain.valueobject.OrderId;
 import com.dziadosz.domain.valueobject.OrderStatus;
 import com.dziadosz.domain.valueobject.TrackingPaymentId;
@@ -11,7 +10,6 @@ import java.util.UUID;
 
 public class Order extends AggregateRoot<OrderId> {
     private final Cart cart;
-    private final Money price;
     private TrackingPaymentId trackingPaymentId;
     private OrderStatus orderStatus;
     private List<String> failureMessages;
@@ -19,23 +17,19 @@ public class Order extends AggregateRoot<OrderId> {
     private Order(final Builder builder) {
         super.setId(builder.orderId);
         cart = builder.cart;
-        price = builder.price;
         trackingPaymentId = builder.trackingPaymentId;
         orderStatus = builder.orderStatus;
         failureMessages = builder.failureMessages;
     }
 
     public static Order fromCart(Cart cart) {
-        Order build = Builder
+        return Builder
                 .builder()
                 .id(cart.getOrderId())
                 .trackingPaymentId(new TrackingPaymentId(UUID.randomUUID()))
                 .cart(cart)
                 .orderStatus(OrderStatus.APPROVED)
                 .build();
-        System.out.println("Build in cart.getOrderId " + cart.getOrderId());
-        System.out.println("Build in fromCart " + build.getId());
-        return build;
     }
 
     public void pay() {
@@ -90,17 +84,13 @@ public class Order extends AggregateRoot<OrderId> {
     }
 
     private void validateInitialOrder() {
-        if (orderStatus == null || getId() == null) {
-            throw new DomainException("Initizalition order failure! " + orderStatus + " " + getId());
+        if (getId() == null) {
+            throw new DomainException("Initialization order failure!");
         }
     }
 
     public Cart getCart() {
         return cart;
-    }
-
-    Money getPrice() {
-        return price;
     }
 
     TrackingPaymentId getTrackingPaymentId() {
@@ -118,7 +108,6 @@ public class Order extends AggregateRoot<OrderId> {
     public static final class Builder {
         private OrderId orderId;
         private Cart cart;
-        private Money price;
         private TrackingPaymentId trackingPaymentId;
         private OrderStatus orderStatus;
         private List<String> failureMessages;
@@ -137,11 +126,6 @@ public class Order extends AggregateRoot<OrderId> {
 
         public Builder cart(final Cart val) {
             cart = val;
-            return this;
-        }
-
-        public Builder price(final Money val) {
-            price = val;
             return this;
         }
 
@@ -169,7 +153,6 @@ public class Order extends AggregateRoot<OrderId> {
     public String toString() {
         return "Order{" +
                 "cart=" + cart +
-                ", price=" + price +
                 ", trackingPaymentId=" + trackingPaymentId +
                 ", orderStatus=" + orderStatus +
                 ", failureMessages=" + failureMessages +

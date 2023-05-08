@@ -61,8 +61,6 @@ public final class Money {
 
     @Override
     public String toString() {
-        return "Money{" +
-                "amount=" + amount +
-                '}';
+        return amount.toPlainString();
     }
 }
