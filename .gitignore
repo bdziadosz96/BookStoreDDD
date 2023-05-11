@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+/infrastructure/docker-compose/volumes
+/infrastructure/docker-compose/volumes/zookeeper/data/myid
